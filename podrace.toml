@@ -1,0 +1,16 @@
+[service.nginx]
+cmd = "nginx -g 'daemon off;'"
+
+healthcheck_cmd = "curl http://127.0.0.1:8080"
+healthcheck_delay = "5s"
+
+retries_on_exit = 3
+retries_on_exit_reset_after = "30s"
+
+[service.backend]
+replication_envs = [
+    "PORT=8081",
+    "PORT=8082",
+    "PORT=8083"
+]
+cmd = "node index.js"
